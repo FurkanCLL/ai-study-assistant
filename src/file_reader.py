@@ -2,13 +2,11 @@ from pathlib import Path
 
 
 def read_text_file(file_path):
-    """
-    Reads a local .txt file and returns its content.
-    """
+    # Reads a local .txt file and returns its content in a small result dictionary.
 
-    path = Path(file_path.strip())
+    input_path = Path(file_path.strip())
 
-    if path.suffix.lower() != ".txt":
+    if input_path.suffix.lower() != ".txt":
         return {
             "success": False,
             "text": "",
@@ -16,8 +14,21 @@ def read_text_file(file_path):
             "error_type": "unsupported_file"
         }
 
+    # First try the path exactly as the user entered it.
+    path = input_path
+
+    # If the file is not found from the current working directory,
+    # also try the project root folder. This helps when the app is run from src/.
+    if not path.exists() and not path.is_absolute():
+        project_root = Path(__file__).resolve().parents[1]
+        alternative_path = project_root / input_path
+
+        if alternative_path.exists():
+            path = alternative_path
+
     try:
         content = path.read_text(encoding="utf-8")
+
         return {
             "success": True,
             "text": content,

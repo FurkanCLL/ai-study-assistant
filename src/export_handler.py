@@ -2,9 +2,7 @@ from pathlib import Path
 
 
 def format_result(result):
-    """
-    Converts the final result dictionary into readable text.
-    """
+    # Converts the result dictionary into readable text for CLI and export.
 
     lines = []
 
@@ -41,9 +39,7 @@ def format_result(result):
 
 
 def export_result(result, filename="study_output.txt"):
-    """
-    Saves the final structured result into a .txt file.
-    """
+    # Saves the final study output into a local .txt file.
 
     try:
         path = Path(filename)

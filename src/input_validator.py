@@ -1,7 +1,6 @@
 def validate_input(text, min_length=100):
-    """
-    Validates the study text before processing.
-    """
+    # Checks whether the study material is usable.
+    # It also cleans extra spaces so other tools get a cleaner text.
 
     if text is None:
         return {

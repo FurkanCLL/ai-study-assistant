@@ -2,10 +2,7 @@ import re
 
 
 def find_sentence_for_concept(text, concept):
-    """
-    Finds a sentence that contains the selected concept.
-    """
-
+    # Finds the first sentence that mentions the selected concept.
     sentences = re.split(r"(?<=[.!?])\s+", text.strip())
 
     for sentence in sentences:
@@ -16,9 +13,8 @@ def find_sentence_for_concept(text, concept):
 
 
 def generate_quiz(text, key_concepts=None, max_questions=5):
-    """
-    Generates simple revision questions and short expected answers.
-    """
+    # Generates simple revision questions from key concepts.
+    # This is intentionally basic because the project uses rule-based logic.
 
     if not text:
         return []

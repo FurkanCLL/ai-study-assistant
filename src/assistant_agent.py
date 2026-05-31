@@ -9,18 +9,14 @@ from export_handler import export_result
 
 
 class AssistantAgent:
-    """
-    Main rule-based controller for the AI Study Assistant.
-    """
+    # Main controller of the system.
+    # It decides which tool should run and in what order.
 
     def __init__(self):
         self.last_result = None
 
     def detect_input_type(self, user_input):
-        """
-        Detects whether the user input is a .txt file path or direct text.
-        """
-
+        # Very simple rule: if input ends with .txt, treat it as a file path.
         possible_path = Path(user_input.strip())
 
         if possible_path.suffix.lower() == ".txt":
@@ -29,9 +25,7 @@ class AssistantAgent:
         return "text"
 
     def process(self, user_input, export=False, export_filename="study_output.txt"):
-        """
-        Runs the full study assistant workflow.
-        """
+        # Runs the complete workflow from user input to final study output.
 
         if not user_input or not user_input.strip():
             return {
@@ -72,6 +66,7 @@ class AssistantAgent:
 
         cleaned_text = validation["text"]
 
+        # These are the main internal tools of the project.
         key_concepts = extract_key_concepts(cleaned_text)
         summary = generate_summary(cleaned_text, key_concepts)
         quiz_questions = generate_quiz(cleaned_text, key_concepts)

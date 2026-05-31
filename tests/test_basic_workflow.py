@@ -16,12 +16,14 @@ from export_handler import export_result
 
 def test_validate_empty_input():
     result = validate_input("")
+
     assert result["status"] == "invalid"
     assert result["reason"] == "empty_text"
 
 
 def test_validate_short_input():
     result = validate_input("Short text.")
+
     assert result["status"] == "warning"
     assert result["reason"] == "too_short"
 
@@ -85,6 +87,14 @@ def test_agent_process_direct_text():
     assert "quiz_questions" in response["result"]
 
 
+def test_agent_process_short_text_with_warning():
+    agent = AssistantAgent()
+    response = agent.process("Testing is useful.")
+
+    assert response["success"] is True
+    assert response["result"]["warning"] is not None
+
+
 def test_file_reader_success(tmp_path):
     file_path = tmp_path / "notes.txt"
     file_path.write_text("This is a test note about software testing.", encoding="utf-8")
@@ -100,6 +110,13 @@ def test_file_reader_not_found():
 
     assert result["success"] is False
     assert result["error_type"] == "file_not_found"
+
+
+def test_file_reader_rejects_wrong_file_type():
+    result = read_text_file("notes.pdf")
+
+    assert result["success"] is False
+    assert result["error_type"] == "unsupported_file"
 
 
 def test_export_result(tmp_path):
